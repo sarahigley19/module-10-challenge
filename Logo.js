@@ -1,24 +1,45 @@
-const {create} = require('svg.js')
-
-class Logo {
-	constructor(width, height) {
-		this.width = width;
-		this.height = height;
-		this.svg = new create().size(width, height);
+class Circle {
+	constructor(color) {
+		this.color = color;
+	}
+	setColor(color) {
+		this.color = color;
+	}
+	render() {
+		return `<circle cx="150" cy="100" r="80" fill="${this.color}">
+      <text x="150" y="100" dy=".3em" text-anchor="middle" fill="white">${this.text || ''}</text>
+    </circle>`;
+	}
 }
 
-addRectangle(x, y, width, height, color) {
-	const rect = this.svg.rect(width, height).move(x, y).fill(color);
+class Square {
+	constructor(color) {
+		this.color = color;
+	}
+	setColor(color) {
+		this.color = color;
+	}
+	render() {
+		return `<rect x="90" y="40" width="120" height="120" fill="${this.color}">
+      <text x="150" y="100" dy=".3em" text-anchor="middle" fill="white">${this.text || ''}</text>
+    </rect>`;
+	}
 }
 
-addText(x, y, content, fontSize, color) {
-	const text = this.svg.text(content).move(x, y).font({ size: fontSize }).fill(color);
+class Triangle {
+	constructor(color) {
+		this.color = color;
+	}
+	setColor(color) {
+		this.color = color;
+	}
+	render() {
+		return `<polygon points="150, 18 244, 182 56, 182" fill="${this.color}">
+      <text x="150" y="100" dy=".3em" text-anchor="middle" fill="white">${this.text || ''}</text>
+    </polygon>`;
+	}
 }
 
-build() {
-	return this.svg.toString();
-}
+module.exports = { Circle, Square, Triangle };
 
-}
 
-module.exports = Logo;

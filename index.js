@@ -1,11 +1,109 @@
-const Logo = require('./Logo');
+const fs = require('fs');
+const path = require('path');
+const inquirer = require('inquirer');
+const { Circle, Square, Triangle } = require('./logo.js');
 
-const myLogo = new Logo(300, 200);
+async function userPrompt() {
+	const userInput = {};
 
-myLogo.addRectangle(50, 50, 200, 100, 'blue');
+	userInput.text = (
+		await inquirer.prompt({
+			type: 'input',
+			name: 'text',
+			message: 'What would you like to write on your logo? Please enter up to three characters.',
+			validate: function (input) {
+				const isValid = input.length <= 3;
+				return isValid || 'Please enter up to three characters.';
+			},
+		})
+	).text;
 
-myLogo.addText(100, 150, 'My Logo', 16, 'white');
+	userInput.textColor = (
+		await inquirer.prompt({
+			type: 'input',
+			name: 'textColor',
+			message: 'Enter text color:',
+		})
+	).textColor;
 
-const svgString = myLogo.build();
+	userInput.shapePicker = (
+		await inquirer.prompt({
+			type: 'list',
+			name: 'shapePicker',
+			message: 'Which shape would you like to customize?',
+			choices: ['Circle', 'Square', 'Triangle'],
+		})
+	).shapePicker;
 
-console.log(svgString);
+	switch (userInput.shapePicker) {
+		case 'Circle':
+			userInput.circleColor = (
+				await inquirer.prompt({
+					type: 'input',
+					name: 'circleColor',
+					message: 'Enter circle color:',
+				})
+			).circleColor;
+			break;
+
+		case 'Square':
+			userInput.squareColor = (
+				await inquirer.prompt({
+					type: 'input',
+					name: 'squareColor',
+					message: 'Enter square color:',
+				})
+			).squareColor;
+			break;
+
+		case 'Triangle':
+			userInput.triangleColor = (
+				await inquirer.prompt({
+					type: 'input',
+					name: 'triangleColor',
+					message: 'Enter triangle color:',
+				})
+			).triangleColor;
+			break;
+	}
+
+	return userInput;
+}
+
+async function generateLogo() {
+	const userInput = await userPrompt();
+
+	let shape;
+
+	switch (userInput.shapePicker) {
+		case 'Circle':
+			shape = new Circle(userInput.circleColor);
+			break;
+
+		case 'Square':
+			shape = new Square(userInput.squareColor);
+			break;
+
+		case 'Triangle':
+			shape = new Triangle(userInput.triangleColor);
+			break;
+	}
+
+	if (shape) {
+		const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+      ${shape.render()}
+      <text x="${shape.textX || 150}" y="${shape.textY || 180}" dy=".3em" text-anchor="middle" fill="${userInput.textColor || 'white'}">${userInput.text}</text>
+    </svg>`;
+
+		const filePath = path.join(__dirname, 'logo.svg');
+
+	
+		fs.writeFileSync(filePath, svg);
+
+		console.log(`Generated logo.svg`);
+	} else {
+		console.error('Invalid shape type');
+	}
+}
+
+generateLogo();
