@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const inquirer = require('inquirer');
-const { Circle, Square, Triangle } = require('./logo.js');
+const { Circle, Square, Triangle } = require('./Lib/shapes.js');
 
 async function userPrompt() {
 	const userInput = {};
@@ -92,7 +92,8 @@ async function generateLogo() {
 	if (shape) {
 		const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
       ${shape.render()}
-      <text x="${shape.textX || 150}" y="${shape.textY || 180}" dy=".3em" text-anchor="middle" fill="${userInput.textColor || 'white'}">${userInput.text}</text>
+	  <text x="150" y="150" font-size="60" text-anchor="middle" fill="${userInput.textColor}">${userInput.text}</text>
+
     </svg>`;
 
 		const filePath = path.join(__dirname, 'logo.svg');
