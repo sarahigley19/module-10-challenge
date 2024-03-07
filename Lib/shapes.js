@@ -1,3 +1,4 @@
+//For Circle Shape
 class Circle {
 	constructor(color) {
 		this.color = color;
@@ -11,6 +12,7 @@ class Circle {
 	}
 }
 
+//For Square Shapes
 class Square {
 	constructor(color) {
 		this.color = color;
@@ -24,6 +26,7 @@ class Square {
 	}
 }
 
+//For Triangle Shape
 class Triangle {
 	constructor(color) {
 		this.color = color;

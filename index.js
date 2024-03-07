@@ -6,6 +6,7 @@ const { Circle, Square, Triangle } = require('./Lib/shapes.js');
 async function userPrompt() {
 	const userInput = {};
 
+//Logo text up to three characters
 	userInput.text = (
 		await inquirer.prompt({
 			type: 'input',
@@ -18,6 +19,7 @@ async function userPrompt() {
 		})
 	).text;
 
+//Logo text color
 	userInput.textColor = (
 		await inquirer.prompt({
 			type: 'input',
@@ -26,6 +28,7 @@ async function userPrompt() {
 		})
 	).textColor;
 
+//Logo shape selector
 	userInput.shapePicker = (
 		await inquirer.prompt({
 			type: 'list',
@@ -34,7 +37,7 @@ async function userPrompt() {
 			choices: ['Circle', 'Square', 'Triangle'],
 		})
 	).shapePicker;
-
+	//circle
 	switch (userInput.shapePicker) {
 		case 'Circle':
 			userInput.circleColor = (
@@ -45,7 +48,7 @@ async function userPrompt() {
 				})
 			).circleColor;
 			break;
-
+		//square
 		case 'Square':
 			userInput.squareColor = (
 				await inquirer.prompt({
@@ -55,7 +58,7 @@ async function userPrompt() {
 				})
 			).squareColor;
 			break;
-
+		//triangle
 		case 'Triangle':
 			userInput.triangleColor = (
 				await inquirer.prompt({
